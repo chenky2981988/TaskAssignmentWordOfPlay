@@ -13,16 +13,18 @@ import java.util.concurrent.TimeUnit
  */
 object MockRestClient {
     private val TAG = MockRestClient::class.java.simpleName
-    private lateinit var mockRestService: MockRestService
 
+    private fun getRetrofit() : Retrofit {
+           val retrofit = Retrofit.Builder()
+                .baseUrl("http://mockapi")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(getHttpClient().build())
+                .build()
+        return retrofit
+    }
 
     fun getMockRestService(): MockRestService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://mockapi")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(getHttpClient().build())
-            .build()
-        return retrofit.create(MockRestService::class.java)
+        return getRetrofit().create(MockRestService::class.java)
     }
 
 }

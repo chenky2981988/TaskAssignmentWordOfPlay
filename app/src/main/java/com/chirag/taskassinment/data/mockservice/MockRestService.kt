@@ -1,6 +1,6 @@
 package com.chirag.taskassinment.data.mockservice
 
-import com.google.gson.JsonObject
+import com.chirag.taskassinment.data.model.Token
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -18,5 +18,5 @@ interface MockRestService {
     )
 
     @POST("login")
-    fun login(@Body body: HashMap<String, String>): Call<JsonObject>
+    fun login(@Body body: HashMap<String, String>): Call<Token>
 }

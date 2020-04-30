@@ -56,9 +56,9 @@ class MockInterceptor(private val context: Context) : Interceptor {
                 val responseStringBuilder = StringBuilder()
                 val text: List<String> = bufferedReader.readLines()
                 for (line in text) {
-                    responseStringBuilder.append(line).append('\n')
+                    responseStringBuilder.append(line)
                 }
-                Log.d(TAG, "Response: $responseStringBuilder.toString()")
+                Log.d(TAG, "Response: $responseStringBuilder")
                 val builder = Response.Builder()
                 builder.request(chain.request())
                 builder.protocol(Protocol.HTTP_1_0)
@@ -66,15 +66,14 @@ class MockInterceptor(private val context: Context) : Interceptor {
                 builder.body(
                     ResponseBody.create(
                         MediaType.parse(mContentType),
-                        responseStringBuilder.toString()
+                        responseStringBuilder.substring(0)
                     )
                 )
-                if (defaultFileName == "success_response.json")
-                    builder.code(200)
-                else if (defaultFileName == "invalid_credentials_response.json")
-                    builder.code(401)
-                else
-                    builder.code(400)
+                when (defaultFileName) {
+                    "success_response.json" -> builder.code(200)
+                    "invalid_credentials_response.json" -> builder.code(401)
+                    else -> builder.code(400)
+                }
 
                 builder.message(responseStringBuilder.toString())
                 response = builder.build()

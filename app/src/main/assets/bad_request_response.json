@@ -1,4 +1,1 @@
-{
-  "error": "bad_request",
-  "description": "Network communication error."
-}
+{"error": "bad_request", "description": "Network communication error."}

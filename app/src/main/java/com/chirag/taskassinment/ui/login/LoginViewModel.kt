@@ -5,27 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.chirag.taskassinment.data.LoginRepository
-import com.chirag.taskassinment.data.Result
 
 import com.chirag.taskassinment.R
+import com.chirag.taskassinment.data.model.Result
+import java.util.regex.Pattern
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
+    companion object{
+        val PASSWORD_PATTERN  = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,16}$"
+    }
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    /*private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult*/
 
-    fun login(username: String, password: String) {
+    fun login(username: String, password: String): LiveData<Result<Any>> {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+       return loginRepository.login(username, password)
     }
 
     fun loginDataChanged(username: String, password: String) {
@@ -49,6 +47,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
+        val pattern = Pattern.compile(PASSWORD_PATTERN)
+        if(password.isNotBlank())
+            return pattern.matcher(password).matches()
+
+        return password.isNotBlank()
     }
 }
