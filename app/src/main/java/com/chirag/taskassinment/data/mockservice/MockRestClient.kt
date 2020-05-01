@@ -38,42 +38,6 @@ private fun getHttpClient(): OkHttpClient.Builder {
     httpClient.connectTimeout(5, TimeUnit.MINUTES)
     httpClient.writeTimeout(5, TimeUnit.MINUTES);
     httpClient.readTimeout(5, TimeUnit.MINUTES);
-    httpClient.addInterceptor(MockInterceptor(TaskAssignment.instance))
+    httpClient.addInterceptor(MockInterceptor(TaskAssignment.instance.applicationContext))
     return httpClient;
 }
-
-
-/*
-try {
-    retrofitHttp = new Retrofit.Builder()
-        .baseUrl("http://mockapi")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(httpClient().build())
-        .build();
-} catch (Exception e) {
-    e.printStackTrace();
-}
-}
-return retrofitHttp.create(ApiInterface.class);
-}
-
-*/
-/**
- * @return
- *//*
-
-private static OkHttpClient.Builder httpClient() {
-    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-    // set your desired log level
-    logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-    OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-    // add your other interceptors …
-    // add logging as last interceptor
-    httpClient.addInterceptor(logging);
-    httpClient.connectTimeout(5, TimeUnit.MINUTES);
-    httpClient.writeTimeout(5, TimeUnit.MINUTES);
-    httpClient.readTimeout(5, TimeUnit.MINUTES);
-    httpClient.addInterceptor(new FakeInterceptor(App.getInstance()));
-    return httpClient;
-}*/

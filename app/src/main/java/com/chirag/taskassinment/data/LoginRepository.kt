@@ -17,7 +17,7 @@ import java.io.IOException
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository() {
+class LoginRepository {
 
     private var loginMutableLiveData: MutableLiveData<Result<Any>> = MutableLiveData()
 

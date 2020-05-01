@@ -11,12 +11,83 @@
         android:id="@+id/currentlyDisplayedView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/bottomBlackLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearProgressIndicatorLay" />
+        app:layout_constraintTop_toBottomOf="@id/topBlackLayout" />
+
+    <ProgressBar
+        android:id="@+id/loaderProgressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/rightLay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/leftLay"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearProgressIndicatorLay" />
+
+    <FrameLayout
+        android:id="@+id/leftLay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/rightLay"
+        app:layout_constraintTop_toTopOf="@+id/linearProgressIndicatorLay" />
+
+    <LinearLayout
+        android:id="@+id/transparentDescLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@color/transparent_black"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBlackLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/descriptionTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:singleLine="false"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            tools:text="Test Image1" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/bottomBlackLayout"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/topBlackLayout"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,33 +101,5 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
-    <ProgressBar
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"
-        android:id="@+id/loaderProgressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
-    <FrameLayout
-        android:id="@+id/leftLay"
-        app:layout_constraintTop_toTopOf="@+id/linearProgressIndicatorLay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/rightLay"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
-
-    <FrameLayout
-        app:layout_constraintTop_toTopOf="@+id/linearProgressIndicatorLay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/leftLay"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/rightLay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

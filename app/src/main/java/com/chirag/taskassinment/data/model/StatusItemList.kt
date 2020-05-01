@@ -9,7 +9,7 @@ object StatusItemList {
         return listOf(
             StatusItem(
                 "https://i.picsum.photos/id/1011/900/1600.jpg",
-                "Pictre 1",
+                "Picture 1",
                 StatusItemType.STATUS_IMAGE
             ),
             StatusItem(
@@ -19,7 +19,7 @@ object StatusItemList {
             ),
             StatusItem(
                 "https://i.picsum.photos/id/1012/900/1600.jpg",
-                "Pictre 2",
+                "Picture 2",
                 StatusItemType.STATUS_IMAGE
             ),
             StatusItem(
@@ -29,7 +29,7 @@ object StatusItemList {
             ),
             StatusItem(
                 "https://i.picsum.photos/id/1013/900/1600.jpg",
-                "Pictre 3",
+                "Picture 3",
                 StatusItemType.STATUS_IMAGE
             ),
             StatusItem(
@@ -39,7 +39,7 @@ object StatusItemList {
             ),
             StatusItem(
                 "https://i.picsum.photos/id/1014/900/1600.jpg",
-                "Pictre 4",
+                "Picture 4",
                 StatusItemType.STATUS_IMAGE
             )
         )

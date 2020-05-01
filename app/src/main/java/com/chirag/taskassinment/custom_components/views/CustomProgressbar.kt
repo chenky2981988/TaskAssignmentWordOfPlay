@@ -20,7 +20,7 @@ class CustomProgressbar(
     private var index: Int,
     var durationInSeconds: Int,
     private val progressWatcher: ProgressWatcher,
-    @DrawableRes private var mProgressDrawable: Int = R.drawable.green_lightgrey_drawable
+    @DrawableRes private var mProgressDrawable: Int = R.drawable.lightgrey_progress_drawable
 ) : ProgressBar(
     context,
     null,

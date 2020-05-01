@@ -10,4 +10,5 @@ import com.chirag.taskassinment.custom_components.views.CustomConstraintView
 interface StatusCallback {
     fun done()
     fun onNextCalled(view: View, customConstraintView: CustomConstraintView, index: Int)
+    //fun onNextCalled(view: View, customConstraintView: CustomConstraintView, index: Int)
 }

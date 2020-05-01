@@ -1,12 +1,12 @@
 package com.chirag.taskassinment.ui.login
 
+import android.util.Patterns
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import com.chirag.taskassinment.data.LoginRepository
-
 import com.chirag.taskassinment.R
+import com.chirag.taskassinment.data.LoginRepository
 import com.chirag.taskassinment.data.model.Result
 import java.util.regex.Pattern
 
@@ -14,22 +14,29 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
-    companion object{
-        val PASSWORD_PATTERN  = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,16}$"
+
+    companion object {
+        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}$"
     }
 
-    /*private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult*/
+    var userName = ObservableField<String>()
 
-    fun login(username: String, password: String): LiveData<Result<Any>> {
+    var userPassWord = ObservableField<String>()
+
+
+    private var _loginResult = MutableLiveData<Result<Any>>()
+    var loginResult: LiveData<Result<Any>> = _loginResult
+
+    fun login(): LiveData<Result<Any>>{
         // can be launched in a separate asynchronous job
-       return loginRepository.login(username, password)
+        // val loginInfoValue = loginInfo.value
+        return loginRepository.login(userName.get().orEmpty(), userPassWord.get().orEmpty())
     }
 
-    fun loginDataChanged(username: String, password: String) {
-        if (!isUserNameValid(username)) {
+    fun loginDataChanged() {
+        if (!isUserNameValid(userName.get().orEmpty())) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
-        } else if (!isPasswordValid(password)) {
+        } else if (!isPasswordValid(userPassWord.get().orEmpty())) {
             _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
         } else {
             _loginForm.value = LoginFormState(isDataValid = true)
@@ -48,9 +55,16 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         val pattern = Pattern.compile(PASSWORD_PATTERN)
-        if(password.isNotBlank())
+        if (password.isNotBlank())
             return pattern.matcher(password).matches()
 
         return password.isNotBlank()
     }
+
+    /*override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }*/
 }

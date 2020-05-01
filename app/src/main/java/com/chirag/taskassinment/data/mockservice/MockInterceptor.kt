@@ -19,7 +19,6 @@ import java.net.URI
 class MockInterceptor(private val context: Context) : Interceptor {
     private var mContentType = "application/json"
 
-
     companion object {
         val FILE_EXTENSION = ".json"
         val TAG = MockInterceptor::class.java.simpleName
@@ -31,7 +30,7 @@ class MockInterceptor(private val context: Context) : Interceptor {
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val listSuggestionFileName = ArrayList<String>()
+        //val listSuggestionFileName = ArrayList<String>()
         val method: String = chain.request().method().toLowerCase()
 
         lateinit var response: Response
@@ -40,12 +39,10 @@ class MockInterceptor(private val context: Context) : Interceptor {
 
         val defaultFileName: String = getFileName(chain)
 
-        //create file name with http method
-        //eg: getLogin.json
-        listSuggestionFileName.add(method.plus(toUppperCaseFirstLetter(defaultFileName)))
-
-        //eg: login.json
-        listSuggestionFileName.add(defaultFileName);
+//        //create file name with http method
+//        listSuggestionFileName.add(method.plus(toUppperCaseFirstLetter(defaultFileName)))
+//
+//        listSuggestionFileName.add(defaultFileName);
 
         if (!TextUtils.isEmpty(defaultFileName)) {
             Log.d(TAG, "Read data from file: $defaultFileName")
@@ -81,9 +78,9 @@ class MockInterceptor(private val context: Context) : Interceptor {
                 Log.e(TAG, exception.message, exception);
             }
         } else {
-            for (file in listSuggestionFileName) {
-                Log.e(TAG, "File not exist: " + getFilePath(uri, file))
-            }
+//            for (file in listSuggestionFileName) {
+//                Log.e(TAG, "File not exist: " + getFilePath(uri, file))
+//            }
             response = chain.proceed(chain.request())
         }
         Log.d(TAG, "<-- END [$method.toUpperCase() ] $uri.toString()");
@@ -93,7 +90,7 @@ class MockInterceptor(private val context: Context) : Interceptor {
     private fun getFileName(chain: Interceptor.Chain): String {
         val method = chain.request().method()
         if (method.equals("POST")) {
-            var fileName: String = ""
+            var fileName = ""
             val lastSegment = chain.request().url().pathSegments()
                 .get(chain.request().url().pathSegments().size - 1)
 
@@ -101,29 +98,15 @@ class MockInterceptor(private val context: Context) : Interceptor {
             Log.d(TAG, "Request Body : $requestBody")
             val jsonObject: JsonObject =
                 Gson().fromJson(requestBody, JsonObject::class.java)
-            fileName =
-                if (lastSegment == "login" && jsonObject.has("username") && jsonObject.has("password")) {
-                    val userName = jsonObject.get("username").asString
-                    val password = jsonObject.get("password").asString
-                    if (userName == "test@worldofplay.in" && password == "Worldofplay@2020")
-                        "success_response"
-                    else
-                        "invalid_credentials_response"
-                } else
-                    "bad_request_response"
+            fileName = getResponseFileName(lastSegment, jsonObject)
 
-            /*  if (lastSegment.equals("login")) {
-                  fileName = "success_response"
-              } else {
-                  fileName = lastSegment
-              }*/
             Log.d(TAG, "FileName is $fileName$FILE_EXTENSION")
             return "$fileName$FILE_EXTENSION"
         }
         return "none$FILE_EXTENSION";
     }
 
-    private fun getFilePath(uri: URI, fileName: String): String {
+/*    private fun getFilePath(uri: URI, fileName: String): String {
         var path = ""
         if (uri.path.lastIndexOf('/') != uri.path.length - 1) {
             path = uri.path.substring(0, uri.path.lastIndexOf('/') + 1)
@@ -136,7 +119,7 @@ class MockInterceptor(private val context: Context) : Interceptor {
 
     private fun toUppperCaseFirstLetter(str: String): String {
         return "$str.substring(0, 1).toUpperCase()$str.substring(1)"
-    }
+    }*/
 
     private fun bodyToString(request: RequestBody?): String? {
         return try {
@@ -146,5 +129,17 @@ class MockInterceptor(private val context: Context) : Interceptor {
         } catch (e: IOException) {
             "did not work"
         }
+    }
+
+    private fun getResponseFileName(lastSegment: String, requestBodyJson: JsonObject): String {
+        return if (lastSegment == "login" && requestBodyJson.has("username") && requestBodyJson.has("password")) {
+            val userName = requestBodyJson.get("username").asString
+            val password = requestBodyJson.get("password").asString
+            return if (userName == "test@worldofplay.in" && password == "Worldofplay@2020")
+                "success_response"
+            else
+                "invalid_credentials_response"
+        } else
+            "bad_request_response"
     }
 }

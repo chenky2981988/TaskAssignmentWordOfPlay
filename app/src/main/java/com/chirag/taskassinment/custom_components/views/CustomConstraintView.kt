@@ -16,7 +16,6 @@ import com.chirag.taskassinment.custom_components.StatusCallback
 import com.chirag.taskassinment.data.model.StatusItem
 import com.chirag.taskassinment.data.model.StatusItemType
 import kotlinx.android.synthetic.main.progress_status_view.view.*
-import java.text.FieldPosition
 
 
 /**
@@ -29,7 +28,7 @@ class CustomConstraintView(
     private var statusItemList: List<StatusItem>,
     private val passedInContainerView: ViewGroup,
     private var statusCallback: StatusCallback,
-    @DrawableRes private var mProgressDrawable: Int = R.drawable.green_lightgrey_drawable
+    @DrawableRes private var mProgressDrawable: Int = R.drawable.lightgrey_progress_drawable
 ) : ConstraintLayout(context) {
 
     private var currentlyShownIndex = 0
@@ -150,24 +149,23 @@ class CustomConstraintView(
 
         view.currentlyDisplayedView.removeAllViews()
         view.currentlyDisplayedView.addView(currentView)
-        val params = LinearLayout.LayoutParams(
+        /*val params = LinearLayout.LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.MATCH_PARENT, 1f
-        )
+        )*/
         if (currentView is ImageView) {
             (currentView as ImageView).scaleType = ImageView.ScaleType.CENTER_CROP
-            (currentView as ImageView).adjustViewBounds = true
         }
-        currentView.layoutParams = params
+        view.descriptionTv.text = statusItemList.get(currentlyShownIndex).description
     }
 
     fun start() {
         show()
     }
 
-    fun editDurationAndResume(index: Int, newDurationInSecons: Int) {
+    fun editDurationAndResume(index: Int, newDurationInSeconds: Int) {
         view.loaderProgressbar.visibility = View.GONE
-        libSliderViewList[index].editDurationAndResume(newDurationInSecons)
+        libSliderViewList[index].editDurationAndResume(newDurationInSeconds)
     }
 
     fun pause(withLoader: Boolean) {
@@ -184,10 +182,6 @@ class CustomConstraintView(
         libSliderViewList[currentlyShownIndex].resumeProgress()
         val currentView = getView(statusItemList.get(currentlyShownIndex).type)
         (currentView as? VideoView)?.start()
-    }
-
-    private fun stop() {
-
     }
 
     fun next() {
@@ -253,7 +247,7 @@ class CustomConstraintView(
         }
     }
 
-    fun getCurrentItem(position: Int): StatusItem{
+    fun getCurrentItem(position: Int): StatusItem {
         return statusItemList.get(position)
     }
 
