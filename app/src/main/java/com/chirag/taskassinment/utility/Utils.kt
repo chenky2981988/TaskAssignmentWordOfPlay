@@ -18,7 +18,7 @@ fun Float.toPixel(mContext: Context): Int {
     ).toInt()
 }
 fun getVideoCacheDir(context: Context): File{
-    return File(context.externalCacheDir,"world0fplay-cache")
+    return File(context.externalCacheDir, CACHE_DIRECTORY_NAME)
 }
 
 @Throws(IOException::class)

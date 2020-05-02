@@ -2,11 +2,14 @@ package com.chirag.taskassinment.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.chirag.taskassinment.R
+import com.chirag.taskassinment.TaskAssignment
 import com.chirag.taskassinment.data.mockservice.MockRestClient
 import com.chirag.taskassinment.data.model.ErrorResponse
 import com.chirag.taskassinment.data.model.Result
 import com.chirag.taskassinment.data.model.Token
-import com.chirag.taskassinment.ui.login.LoginResult
+import com.chirag.taskassinment.utility.PASSWORD_KEY
+import com.chirag.taskassinment.utility.USERNAME_KEY
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
@@ -23,26 +26,26 @@ class LoginRepository {
 
     fun login(username: String, password: String): MutableLiveData<Result<Any>> {
         try {
-            val postBody = HashMap<String, String>()
-            postBody["username"] = username
-            postBody["password"] = password
-            MockRestClient.getMockRestService().login(postBody)
+            val requestBody = getLoginRequestBody(username, password)
+            MockRestClient.getMockRestService().login(requestBody)
                 .enqueue(object : retrofit2.Callback<Token> {
                     override fun onResponse(
                         call: Call<Token>,
                         response: Response<Token>
                     ) {
-                         if(response.code() == 200) {
-                             loginMutableLiveData.value = Result.Success(response.body() as Token)
-                         } else {
-                             val errorResponse = Gson().fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
-                             loginMutableLiveData.value = Result.Error(errorResponse)
-                         }
+                        if (response.code() == 200) {
+                            loginMutableLiveData.postValue(Result.Success(response.body() as Token))
+                        } else {
+                            val errorResponse = Gson().fromJson(
+                                response.errorBody()!!.string(),
+                                ErrorResponse::class.java
+                            )
+                            loginMutableLiveData.postValue(Result.Error(errorResponse))
+                        }
                     }
 
                     override fun onFailure(call: Call<Token>, t: Throwable) {
-                        loginMutableLiveData.value = Result.Failure(Exception(t.message))
-                        Log.e("TAG", t.message.toString())
+                        loginMutableLiveData.postValue(Result.Failure(Exception(t.message)))
                     }
                 })
 
@@ -52,5 +55,12 @@ class LoginRepository {
         }
 
         return loginMutableLiveData
+    }
+
+    private fun getLoginRequestBody(username: String, password: String): HashMap<String, String> {
+        val postBody = HashMap<String, String>()
+        postBody[USERNAME_KEY] = username
+        postBody[PASSWORD_KEY] = password
+        return postBody
     }
 }

@@ -7,7 +7,6 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password should be of 8-15 characters length including at least 1
-uppercase, 1 lowercase, 1 number and 1 special character</string>
+    <string name="invalid_password">Password should be of 8–15 characters length including at least 1 uppercase, 1 lowercase, 1 number and 1 special character</string>
     <string name="login_failed">"Login failed"</string>
 </resources>

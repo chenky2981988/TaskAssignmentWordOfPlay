@@ -8,8 +8,6 @@
             type="com.chirag.taskassinment.ui.login.LoginViewModel" />
         
     </data>
-
-    <!--android:onClick="@{() -> loginViewModel.login()}"-->
 <androidx.constraintlayout.widget.ConstraintLayout 
     android:id="@+id/container"
     android:layout_width="match_parent"
